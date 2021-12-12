@@ -2,6 +2,7 @@
 
 #include <WiFi.h>
 #include <WiFiUdp.h>
+#include "json.h"
 
 #include "config.h"
 
@@ -14,7 +15,6 @@ char pktbuf[BUFFERSIZE+1]; //buffer to store udp data +1 to add the end-of-strin
 int didReadLength;
 char rx_val;
 String message;
-
 
 void connectToWifi()
 {
@@ -78,6 +78,12 @@ void loop()
         if ((int)message.charAt(message.length()-1) == 10) {
             //the last red buffer filled completely so LF will be the last char red, which should not be part of the message.
             message.remove(message.length()-1);
+        }
+        Json jsonMessage(message.c_str() );
+        if (jsonMessage.isValid()) {
+            Serial.println(jsonMessage.toTree());
+        } else {
+            Serial.println("\nMessage is not a valid JSON message.");
         }
         Serial.print("----- Message begin -----\n\"");Serial.print(message);Serial.print("\"\n----- Message endof -----\n");
         

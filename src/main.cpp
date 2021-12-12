@@ -10,7 +10,7 @@ WiFiUDP udp;
 
 int rp;
 
-#define BUFFERSIZE 3
+#define BUFFERSIZE 512
 char pktbuf[BUFFERSIZE+1]; //buffer to store udp data +1 to add the end-of-string marker '\0'
 int didReadLength;
 char rx_val;
